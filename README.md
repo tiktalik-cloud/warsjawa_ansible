@@ -24,4 +24,4 @@ Tutorials
  * ANS1 - simple example of ansible usage
  * ANS2 - example of using roles in ansible configuration
  * ANS3 - multi machine configuration for ansible
- * ANS4 - cloud configuration with tiktalik module usage.
+ * ANS4 - cloud configuration with tiktalik module usage - 2 x [Tiktalik Instances](https://tiktalik.com/en/computing) and [Tiktalik Load Balancer](https://tiktalik.com/en/loadbalancer) in front
