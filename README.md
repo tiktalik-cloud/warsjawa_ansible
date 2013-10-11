@@ -12,9 +12,9 @@ Setup
 
 1. [Get free Tiktalik.com account](https://tiktalik.com/en/promo?auto=1)
 
-2. Activate [Tiktalik Files](https://tiktalik.com/en/files) service and write down your authorization data -- your login and key.
+2. Create API KEY in section api keys in tiktalik interface
 
-3. export your API_KEY as ```TK_API_KEY``` and API_SECRET as ```TK_API_SECRET``` in your system
+3. Export your API_KEY as ```TK_API_KEY``` and API_SECRET as ```TK_API_SECRET``` in your system
 
 5. Adjust ```playbook.yml``` file accordingly and put parameters as you like
 
