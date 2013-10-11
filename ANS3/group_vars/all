@@ -1,0 +1,5 @@
+dbuser: test
+dbpass: test
+dbname: test
+dbhost: 37.233.98.38
+webhost: 37.233.98.33
