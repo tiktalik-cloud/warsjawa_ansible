@@ -1,4 +1,4 @@
-warsjawa Ansible demos
+Warsjawa Ansible demos
 ================
 
 Welcome
