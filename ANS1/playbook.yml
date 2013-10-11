@@ -1,0 +1,23 @@
+---
+- hosts: all
+  connection: local
+  vars:
+    install_flask: False
+
+    name: example1
+
+  tasks:
+
+    - name: Check ssh config
+      file: path=/home/daniel/test_file owner="daniel" mode="0600"
+
+
+    - name: Install flask
+      pip: name=flask virtualenv=/my_app/venv
+      when: install_flask
+
+    - debug: msg="arch:{{ ansible_architecture }},distro:{{ ansible_distribution }}"
+
+    - name: MSG
+      debug: msg="MASZ UBUNTU"
+      when: ansible_distribution == "Ubuntu"
