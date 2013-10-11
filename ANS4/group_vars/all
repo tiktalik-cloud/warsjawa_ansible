@@ -1,0 +1,12 @@
+# nginx user
+user: www-data
+
+# pid file path
+pid: /var/run/nginx.pid
+
+# worker processes count
+worker_connections: 768
+
+vhost_dir: /opt/ansible_example/
+
+listen: 0.0.0.0:80

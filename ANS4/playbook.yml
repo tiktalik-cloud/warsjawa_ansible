@@ -1,0 +1,71 @@
+---
+- hosts: all
+  connection: local
+  tasks:
+  - name: Launch Tiktalik Instance (frontend1)
+    tiktalik: >
+      command=instance
+      state=present
+      name=test-ansible1
+      size_id=0.25
+      networks=e92e60c2-2993-4a0c-b635-c5e2b2462c7a
+      image_uuid=4a2b3e72-47f1-4e88-b482-1834478ade28
+      ssh_key_uuid=8b14e165-f4e7-4e55-bd4d-918cdcdabdc9
+      unique_name=yes
+      wait=yes
+      wait_timeout=300
+    register: instance1
+  - debug: msg="Instance1 IP is {{instance1.instance.interfaces[0].ip}}"
+
+  - wait_for: delay=30 host="{{ instance1.instance.interfaces[0].ip }}" port=22
+
+  - name: Add new instance1 to host group
+    local_action: add_host hostname={{ instance1.instance.interfaces[0].ip }} groupname=frontend
+
+  - name: Launch Tiktalik Instance (frontend2)
+    tiktalik: >
+      command=instance
+      state=present
+      name=test-ansible2
+      size_id=0.25
+      networks=e92e60c2-2993-4a0c-b635-c5e2b2462c7a
+      image_uuid=4a2b3e72-47f1-4e88-b482-1834478ade28
+      ssh_key_uuid=8b14e165-f4e7-4e55-bd4d-918cdcdabdc9
+      unique_name=yes
+      wait_timeout=500
+    register: instance2
+  - debug: msg="Instance2 IP is {{ instance2.instance.interfaces[0].ip }}"
+
+  - wait_for: delay=30 host="{{ instance1.instance.interfaces[0].ip }}" port=22
+
+  - name: Add new instance2 to host group
+    local_action: add_host hostname={{ instance2.instance.interfaces[0].ip }} groupname=frontend
+
+  - name: Create Loadbalancer
+    local_action: 
+      module: tiktalik 
+      command: loadbalancer
+      state: present 
+      name: test-ansible-lb
+      unique_name: yes
+      proto: HTTP
+      port: 80
+      backends:
+        - host: "{{ instance1.instance.interfaces[0].ip }}"
+          port: 80
+          weight: 1
+        - host: "{{ instance2.instance.interfaces[0].ip }}"
+          port: 80
+          weight: 1
+      domains:
+        - test.ansible-test.pl
+
+          
+- hosts: frontend
+  remote_user: root
+  gather_facts: True
+  roles:
+    - nginx
+    - nginxvhost
+ 
+

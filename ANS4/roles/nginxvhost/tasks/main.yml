@@ -1,0 +1,20 @@
+---
+  - name: add nginx example vhost
+    sudo: True
+    action: template src=vhost.conf.j2 dest=/etc/nginx/sites-available/vhost-example.conf
+    notify:
+      - restart nginx
+
+  - name: Make sure that directory exsists
+    action: file path=$vhost_dir state=directory recurse=yes owner=$user
+
+  - name: Copy site files
+    action: template src=index.html.j2 dest=$vhost_dir/index.html
+
+  - name: Make sure that directory exsists
+    action: file path=$vhost_dir state=directory recurse=yes owner=$user
+
+  - name: link nginx example vhost in sites-enabled
+    action: file src=/etc/nginx/sites-available/vhost-example.conf dest=/etc/nginx/sites-enabled/vhost-example.conf state=link
+    notify:
+      - restart nginx
